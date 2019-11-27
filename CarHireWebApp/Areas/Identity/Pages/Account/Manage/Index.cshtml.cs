@@ -8,17 +8,14 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace CarHireWebApp.Areas.Identity.Pages.Account.Manage
-{
-    public partial class IndexModel : PageModel
-    {
+namespace CarHireWebApp.Areas.Identity.Pages.Account.Manage {
+    public partial class IndexModel : PageModel {
         private readonly UserManager<CarHireWebAppUser> _userManager;
         private readonly SignInManager<CarHireWebAppUser> _signInManager;
 
         public IndexModel(
             UserManager<CarHireWebAppUser> userManager,
-            SignInManager<CarHireWebAppUser> signInManager)
-        {
+            SignInManager<CarHireWebAppUser> signInManager) {
             _userManager = userManager;
             _signInManager = signInManager;
         }
@@ -31,31 +28,32 @@ namespace CarHireWebApp.Areas.Identity.Pages.Account.Manage
         [BindProperty]
         public InputModel Input { get; set; }
 
-        public class InputModel
-        {
+        public class InputModel {
+            [Required, DataType(DataType.Text), Display(Name ="Full name")]
+            public string Name { get; set; }
+
+            [Required, DataType(DataType.DateTime), Display(Name = "Date of Birth")]
+            public DateTime DateOfBirth { get; set; }
+
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
         }
 
-        private async Task LoadAsync(CarHireWebAppUser user)
-        {
+        private async Task LoadAsync(CarHireWebAppUser user) {
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
 
             Username = userName;
 
-            Input = new InputModel
-            {
+            Input = new InputModel {
                 PhoneNumber = phoneNumber
             };
         }
 
-        public async Task<IActionResult> OnGetAsync()
-        {
+        public async Task<IActionResult> OnGetAsync() {
             var user = await _userManager.GetUserAsync(User);
-            if (user == null)
-            {
+            if (user == null) {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
@@ -63,31 +61,30 @@ namespace CarHireWebApp.Areas.Identity.Pages.Account.Manage
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync()
-        {
+        public async Task<IActionResult> OnPostAsync() {
             var user = await _userManager.GetUserAsync(User);
-            if (user == null)
-            {
+            if (user == null) {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-            if (!ModelState.IsValid)
-            {
+            if (!ModelState.IsValid) {
                 await LoadAsync(user);
                 return Page();
             }
 
+            if (Input.Name != user.Name) user.Name = Input.Name;
+            if (Input.DateOfBirth != user.DateOfBirth) user.DateOfBirth = Input.DateOfBirth;
+
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-            if (Input.PhoneNumber != phoneNumber)
-            {
+            if (Input.PhoneNumber != phoneNumber) {
                 var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
-                if (!setPhoneResult.Succeeded)
-                {
+                if (!setPhoneResult.Succeeded) {
                     var userId = await _userManager.GetUserIdAsync(user);
                     throw new InvalidOperationException($"Unexpected error occurred setting phone number for user with ID '{userId}'.");
                 }
             }
 
+            await _userManager.UpdateAsync(user);
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";
             return RedirectToPage();

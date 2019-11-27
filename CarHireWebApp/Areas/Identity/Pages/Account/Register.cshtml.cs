@@ -15,11 +15,9 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 
-namespace CarHireWebApp.Areas.Identity.Pages.Account
-{
+namespace CarHireWebApp.Areas.Identity.Pages.Account {
     [AllowAnonymous]
-    public class RegisterModel : PageModel
-    {
+    public class RegisterModel : PageModel {
         private readonly SignInManager<CarHireWebAppUser> _signInManager;
         private readonly UserManager<CarHireWebAppUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
@@ -29,8 +27,7 @@ namespace CarHireWebApp.Areas.Identity.Pages.Account
             UserManager<CarHireWebAppUser> userManager,
             SignInManager<CarHireWebAppUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
-        {
+            IEmailSender emailSender) {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
@@ -44,8 +41,17 @@ namespace CarHireWebApp.Areas.Identity.Pages.Account
 
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
-        public class InputModel
-        {
+        public class InputModel {
+            [Required]
+            [DataType(DataType.Text)]
+            [Display(Name = "Full name")]
+            public string Name { get; set; }
+
+            [Required]
+            [Display(Name = "Birth Date")]
+            [DataType(DataType.Date)]
+            public DateTime DateOfBirth { get; set; }
+
             [Required]
             [EmailAddress]
             [Display(Name = "Email")]
@@ -63,22 +69,24 @@ namespace CarHireWebApp.Areas.Identity.Pages.Account
             public string ConfirmPassword { get; set; }
         }
 
-        public async Task OnGetAsync(string returnUrl = null)
-        {
+        public async Task OnGetAsync(string returnUrl = null) {
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 
-        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
-        {
+        public async Task<IActionResult> OnPostAsync(string returnUrl = null) {
             returnUrl = returnUrl ?? Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-            if (ModelState.IsValid)
-            {
-                var user = new CarHireWebAppUser { UserName = Input.Email, Email = Input.Email };
+            if (ModelState.IsValid) {
+                var user = new CarHireWebAppUser {
+                    Name = Input.Name,
+                    DateOfBirth = Input.DateOfBirth,
+                    UserName = Input.Email,
+                    Email = Input.Email,
+                    RegistrationDate = DateTime.Now
+                };
                 var result = await _userManager.CreateAsync(user, Input.Password);
-                if (result.Succeeded)
-                {
+                if (result.Succeeded) {
                     _logger.LogInformation("User created a new account with password.");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -92,18 +100,14 @@ namespace CarHireWebApp.Areas.Identity.Pages.Account
                     await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
-                    if (_userManager.Options.SignIn.RequireConfirmedAccount)
-                    {
+                    if (_userManager.Options.SignIn.RequireConfirmedAccount) {
                         return RedirectToPage("RegisterConfirmation", new { email = Input.Email });
-                    }
-                    else
-                    {
+                    } else {
                         await _signInManager.SignInAsync(user, isPersistent: false);
                         return LocalRedirect(returnUrl);
                     }
                 }
-                foreach (var error in result.Errors)
-                {
+                foreach (var error in result.Errors) {
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
             }

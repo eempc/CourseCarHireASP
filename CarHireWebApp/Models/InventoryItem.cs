@@ -7,16 +7,34 @@ using System.Threading.Tasks;
 namespace CarHireWebApp.Models {
     public class InventoryItem {
         [Required, Key]
-        public int Id { get; set; }
+        public Guid Guid { get; set; }
         [Required]
         public string RegistrationMark { get; set; }
+        [Required]
+        public VehicleType VehicleType { get; set; }
+        [Required]
+        public FuelType FuelType { get; set; }
+        [Required]
+        public string Make { get; set; }
+        [Required]
+        public string Model { get; set; }
+        [Required]
+        public Size Size { get; set; }
+        [Required]
+        public BodyType BodyType { get; set; }
+        [Required]
+        public int Seats { get; set; }
+        [Required]
+        public bool AirCon { get; set; }
+        [Required]
+        public DateTime PurchaseDate { get; set; }
     }
 
 
 
 
 
-    public enum ItemType {
+    public enum VehicleType {
         Other = 0,
         Car = 1,
         Van = 2,
@@ -29,7 +47,10 @@ namespace CarHireWebApp.Models {
         Petrol = 1,
         Diesel = 2,
         Electric = 3,
-        Hybrid = 4
+        Hybrid = 4,
+        Hydrogen = 5,
+        SolarElectric = 6,
+        Biodiesel = 7
     }
 
     public enum Size {
@@ -39,7 +60,12 @@ namespace CarHireWebApp.Models {
         Large = 3
     }
 
-    public enum Body {
-
+    public enum BodyType {
+        Other = 0,
+        Hatchback = 1,
+        Saloon = 2,
+        Sedan = 3,
+        Estate = 4,
+        Van = 5
     }
 }

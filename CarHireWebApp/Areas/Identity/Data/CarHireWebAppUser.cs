@@ -10,7 +10,7 @@ namespace CarHireWebApp.Areas.Identity.Data {
         public string Name { get; set; }
         [PersonalData, Required, DataType(DataType.Date), Display(Name="Date of Birth")]
         public DateTime DateOfBirth { get; set; }
-        [Required]
+        
         public DateTime RegistrationDate { get; set; }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext) {
