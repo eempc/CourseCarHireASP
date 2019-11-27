@@ -8,9 +8,16 @@ namespace CarHireWebApp.Areas.Identity.Data {
     public class CarHireWebAppUser : IdentityUser, IValidatableObject {
         [PersonalData, Required]
         public string Name { get; set; }
-        [PersonalData, Required, DataType(DataType.Date), Display(Name="Date of Birth")]
+        [PersonalData, Required, DataType(DataType.Date), Display(Name="Date of birth")]
         public DateTime DateOfBirth { get; set; }
-        
+        [PersonalData, Required, Display(Name = "Address line 1")]
+        public string AddressLine1 { get; set; }
+        [PersonalData, Display(Name = "Address line 2")]
+        public string AddressLine2 { get; set; }
+        [PersonalData]
+        public string City { get; set; }
+        [PersonalData, Required]
+        public string Postcode { get; set; }
         public DateTime RegistrationDate { get; set; }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext) {
