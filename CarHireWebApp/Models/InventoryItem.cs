@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace CarHireWebApp.Models {
     public class InventoryItem {
         [Required, Key]
-        public Guid Guid { get; set; }
+        public Guid Id { get; set; }
         [Required]
         public string RegistrationMark { get; set; }
         [Required]
@@ -26,6 +26,8 @@ namespace CarHireWebApp.Models {
         public int Seats { get; set; }
         [Required]
         public bool AirCon { get; set; }
+        [Required]
+        public decimal HourlyCost { get; set; }
         [Required]
         public DateTime PurchaseDate { get; set; }
     }
