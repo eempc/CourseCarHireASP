@@ -42,29 +42,26 @@ namespace CarHireWebApp.Areas.Identity.Pages.Account {
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
         public class InputModel {
-            [Required]
-            [DataType(DataType.Text)]
-            [Display(Name = "Full name")]
+            [Required, DataType(DataType.Text), Display(Name = "Full name")]
             public string Name { get; set; }
-
-            [Required]
-            [Display(Name = "Birth Date")]
-            [DataType(DataType.Date)]
+            [Required, DataType(DataType.Date), Display(Name = "Date of Birth")]
             public DateTime DateOfBirth { get; set; }
-
+            [Required, Display(Name = "Address line 1")]
+            public string AddressLine1 { get; set; }
+            [Display(Name = "Address line 2")]
+            public string AddressLine2 { get; set; }
             [Required]
-            [EmailAddress]
-            [Display(Name = "Email")]
+            public string City { get; set; }
+            [Required, DataType(DataType.PostalCode)]
+            public string Postcode { get; set; }
+            [Required, Phone]
+            public string PhoneNumber { get; set; }
+            [Required, EmailAddress, Display(Name = "Email")]
             public string Email { get; set; }
-
-            [Required]
+            [Required, DataType(DataType.Password), Display(Name = "Password")]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
-            [DataType(DataType.Password)]
-            [Display(Name = "Password")]
             public string Password { get; set; }
-
-            [DataType(DataType.Password)]
-            [Display(Name = "Confirm password")]
+            [DataType(DataType.Password), Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
         }
@@ -81,6 +78,11 @@ namespace CarHireWebApp.Areas.Identity.Pages.Account {
                 var user = new CarHireWebAppUser {
                     Name = Input.Name,
                     DateOfBirth = Input.DateOfBirth,
+                    AddressLine1 = Input.AddressLine1,
+                    AddressLine2 = Input.AddressLine2,
+                    City = Input.City,
+                    Postcode = Input.Postcode,
+                    PhoneNumber = Input.PhoneNumber,
                     UserName = Input.Email,
                     Email = Input.Email,
                     RegistrationDate = DateTime.Now

@@ -31,12 +31,17 @@ namespace CarHireWebApp.Areas.Identity.Pages.Account.Manage {
         public class InputModel {
             [Required, DataType(DataType.Text), Display(Name ="Full name")]
             public string Name { get; set; }
-
-            [Required, DataType(DataType.DateTime), Display(Name = "Date of Birth")]
+            [Required, DataType(DataType.Date), Display(Name = "Date of Birth")]
             public DateTime DateOfBirth { get; set; }
-
-            [Phone]
-            [Display(Name = "Phone number")]
+            [Required, Display(Name = "Address line 1")]
+            public string AddressLine1 { get; set; }
+            [Display(Name = "Address line 2")]
+            public string AddressLine2 { get; set; }
+            [Required]
+            public string City { get; set; }
+            [Required, DataType(DataType.PostalCode)]
+            public string Postcode { get; set; }
+            [Required, Phone, Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
         }
 
@@ -47,6 +52,13 @@ namespace CarHireWebApp.Areas.Identity.Pages.Account.Manage {
             Username = userName;
 
             Input = new InputModel {
+                Name = user.Name,
+                DateOfBirth = user.DateOfBirth,
+                AddressLine1 = user.AddressLine1,
+                AddressLine2 = user.AddressLine2,
+                City = user.City,
+                Postcode = user.Postcode,
+
                 PhoneNumber = phoneNumber
             };
         }
@@ -74,6 +86,10 @@ namespace CarHireWebApp.Areas.Identity.Pages.Account.Manage {
 
             if (Input.Name != user.Name) user.Name = Input.Name;
             if (Input.DateOfBirth != user.DateOfBirth) user.DateOfBirth = Input.DateOfBirth;
+            if (Input.AddressLine1 != user.AddressLine1) user.AddressLine1 = Input.AddressLine1;
+            if (Input.AddressLine2 != user.AddressLine2) user.AddressLine2 = Input.AddressLine2;
+            if (Input.City != user.City) user.City = Input.City;
+            if (Input.Postcode != user.Postcode) user.Postcode = Input.Postcode;
 
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
             if (Input.PhoneNumber != phoneNumber) {
