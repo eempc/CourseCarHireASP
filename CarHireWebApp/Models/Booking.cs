@@ -1,19 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using CarHireWebApp.Areas.Identity.Data;
+using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CarHireWebApp.Models {
     public class Booking {
-        public int Id { get; set; }
-        public string UserGuIdAdded { get; set; }
-        public DateTime DateTimeAdded { get; set; }
-        public DateTime StartDateTime { get; set; }
-        public DateTime EndDateTime { get; set; }
-        public string InventoryIdBooked { get; set; }
+        [Required, Key]
+        public int BookingId { get; set; } // Standard int
+
+        [Required, DataType(DataType.DateTime)]
+        public DateTime DateCreated { get; set; } // DateTime this entry was added to DB
+
+        [Required, ForeignKey("User")]
+        public string UserId { get; set; } // Which user booked the car
+        public CarHireWebAppUser User { get; set; }
+
+        [Required, DataType(DataType.DateTime)]
+        public DateTime BookingStartDateTime { get; set; }
+
+        [Required, DataType(DataType.DateTime)]
+        public DateTime BookingEndDateTime { get; set; }
+
+        [DataType(DataType.Currency)]
         public decimal PricePaid { get; set; }
+
         public CardIssuer CardIssuer { get; set;}
         public bool PaymentConfirmed { get; set; }
+         
+        [Required, ForeignKey("Vehicle")]
+        public string VehicleId { get; set; }
+        public Vehicle Vehicle { get; set; }
+
     }
 
     public enum CardIssuer {
