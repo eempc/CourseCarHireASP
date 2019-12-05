@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace CarHireWebApp.Models {
     public abstract class Vehicle {
@@ -15,9 +11,6 @@ namespace CarHireWebApp.Models {
 
         [Required]
         public VehicleType VehicleType { get; set; }
-
-        [Required]
-        public FuelType FuelType { get; set; }
 
         [Required]
         public string Make { get; set; }

@@ -11,15 +11,6 @@ namespace CarHireWebApp.Models {
         Motorcycle = 3
     }
 
-    public enum FuelType {
-        Other = 0,
-        Petrol = 1,
-        Diesel = 2,
-        Electric = 3,
-        Hybrid = 4,
-        Hydrogen = 5
-    }
-
     public enum Size {
         Other = 0,
         Small,

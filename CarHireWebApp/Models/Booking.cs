@@ -24,18 +24,11 @@ namespace CarHireWebApp.Models {
         [DataType(DataType.Currency)]
         public decimal PricePaid { get; set; }
 
-        public CardIssuer CardIssuer { get; set;}
         public bool PaymentConfirmed { get; set; }
          
         [Required, ForeignKey("Vehicle")]
         public string VehicleId { get; set; }
         public Vehicle Vehicle { get; set; }
 
-    }
-
-    public enum CardIssuer {
-        Other = 0,
-        Visa = 1,
-        Mastercard = 2
     }
 }
