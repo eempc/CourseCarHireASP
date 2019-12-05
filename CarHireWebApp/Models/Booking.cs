@@ -27,7 +27,7 @@ namespace CarHireWebApp.Models {
         public bool PaymentConfirmed { get; set; }
          
         [Required, ForeignKey("Vehicle")]
-        public string VehicleId { get; set; }
+        public Guid VehicleId { get; set; }
         public Vehicle Vehicle { get; set; }
 
     }

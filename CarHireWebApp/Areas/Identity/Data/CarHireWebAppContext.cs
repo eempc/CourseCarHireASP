@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using CarHireWebApp.Areas.Identity.Data;
-using Microsoft.AspNetCore.Identity;
+﻿using CarHireWebApp.Areas.Identity.Data;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using CarHireWebApp.Models;
 
-namespace CarHireWebApp.Models
-{
+namespace CarHireWebApp.Models {
     public class CarHireWebAppContext : IdentityDbContext<CarHireWebAppUser>
     {
         public CarHireWebAppContext(DbContextOptions<CarHireWebAppContext> options)
@@ -23,5 +18,9 @@ namespace CarHireWebApp.Models
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
         }
+
+        public DbSet<CarHireWebApp.Models.Vehicle> Vehicle { get; set; }
+
+
     }
 }

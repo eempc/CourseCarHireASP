@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 
 namespace CarHireWebApp.Models {
-    public abstract class Vehicle {
+    public class Vehicle {
         [Required, Key]
         public Guid VehicleId { get; set; }
 
@@ -24,13 +24,7 @@ namespace CarHireWebApp.Models {
         [Required, Range(0,9)]
         public int Seats { get; set; }
 
-        [Required]
-        public bool AirCon { get; set; }
-
         [Required, DataType(DataType.Currency)]
         public decimal HourlyCost { get; set; }
-
-        [Required, DataType(DataType.Date)]
-        public DateTime PurchaseDate { get; set; }
     }
 }
