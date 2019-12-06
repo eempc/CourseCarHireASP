@@ -25,6 +25,6 @@ namespace CarHireWebApp.Models {
         public int Seats { get; set; }
 
         [Required, DataType(DataType.Currency)]
-        public decimal HourlyCost { get; set; }
+        public decimal Rate { get; set; }
     }
 }

@@ -56,6 +56,7 @@ namespace CarHireWebApp.Areas.Identity.Pages.Account {
             public string Postcode { get; set; }
             [Required, Phone]
             public string PhoneNumber { get; set; }
+
             [Required, EmailAddress, Display(Name = "Email")]
             public string Email { get; set; }
             [Required, DataType(DataType.Password), Display(Name = "Password")]
