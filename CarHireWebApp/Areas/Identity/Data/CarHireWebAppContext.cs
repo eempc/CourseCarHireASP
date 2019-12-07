@@ -21,6 +21,8 @@ namespace CarHireWebApp.Models {
 
         public DbSet<CarHireWebApp.Models.Vehicle> Vehicle { get; set; }
 
+        public DbSet<CarHireWebApp.Models.Booking> Booking { get; set; }
+
 
     }
 }

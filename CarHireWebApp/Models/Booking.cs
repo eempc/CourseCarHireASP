@@ -21,7 +21,7 @@ namespace CarHireWebApp.Models {
         [Required, DataType(DataType.DateTime)]
         public DateTime BookingEndDateTime { get; set; }
 
-        [DataType(DataType.Currency)]
+        [Required, DataType(DataType.Currency)]
         public decimal PricePaid { get; set; }
 
         public bool PaymentConfirmed { get; set; }
